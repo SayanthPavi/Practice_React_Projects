@@ -7,9 +7,14 @@ function App() {
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState(null);
   const [bmiStatus, setBmiStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  
 
   const calculateBmi = () => {
-    if(height && weight){
+    const isValidHeight = /^\d+$/.test(height);
+    const isValidWeight = /^\d+$/.test(weight);
+
+    if(isValidHeight && isValidWeight){
       const heightInMeters = height / 100;
       const bmiValue = weight / (heightInMeters * heightInMeters);
       setBmi(bmiValue.toFixed(2));
@@ -22,13 +27,22 @@ function App() {
       }else{
         setBmiStatus("Obese")
       }
-
+      setErrorMessage("")
       
     }else{
       setBmi(null)
       setBmiStatus("")
+      setErrorMessage("Please enter valid numeric values for height and weight.")
     }
-  }
+  };
+
+  const clearAll = () =>{
+    setHeight("");
+    setWeight("");
+    setBmi(null)
+    setBmiStatus("")
+
+  };
 
   return (
     <>
@@ -38,21 +52,26 @@ function App() {
         </div>
         <div className="data">
           <h1>BMI Calculator</h1>
+
+          {errorMessage && <p className="error">{errorMessage}</p>}
           <div className="input-container">
             <label htmlFor="height">Height (cm):</label>
             <input type="text" name="height" id="height" value={height} 
             onChange={(e) => setHeight(e.target.value)}/>
           </div>
           <div className="input-container">
-          <label htmlFor="weight">Weight (cm):</label>
+          <label htmlFor="weight">Weight (Kg):</label>
           <input type="text" name="weight" id="weight"  value={weight}  
            onChange={(e) => setWeight(e.target.value)}/>
           </div>
           <button onClick={calculateBmi}>Calculate BMI</button>
-          <div className="result">
-            <p>Your BMI is: 28.8</p>
-            <p>Status: Over weight</p>
-          </div>
+          <button onClick={clearAll}>Clear All</button>
+         {bmi !== null && (
+           <div className="result">
+           <p>Your BMI is: {bmi}</p>
+           <p>Status: {bmiStatus}</p>
+         </div>
+         )}
         </div>
       </div>
     </>
