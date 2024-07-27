@@ -1,17 +1,22 @@
-import React from "react";
+import { cartContext } from './CartContext';
+import { useContext } from "react";
 import "../styles/Product.css";
 
-export const Products = ({ product, cart, setCart }) => {
+import PropTypes from 'prop-types';
+
+
+export const Products = ({ product }) => {
+  const { cart, setCart } = useContext(cartContext);
   const title =
     product.title.length > 20
       ? product.title.substring(0, 35) + " ..."
       : product.title;
 
   const addCart = () => {
-    setCart([...cart, product])
+    setCart([...cart, product]);
   };
   const removeCart = () => {
-    setCart(cart.filter((c) => c.id !== product.id))
+    setCart(cart.filter((c) => c.id !== product.id));
   };
   return (
     <>
@@ -34,4 +39,10 @@ export const Products = ({ product, cart, setCart }) => {
       </div>
     </>
   );
+};
+
+
+Products.propTypes = {
+  product: PropTypes.string.isRequired,
+ 
 };

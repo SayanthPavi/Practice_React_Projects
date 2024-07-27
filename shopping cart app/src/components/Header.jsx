@@ -1,6 +1,7 @@
-import React from "react";
 import "../styles/Header.css";
 import { Link } from "react-router-dom";
+
+import PropTypes from 'prop-types';
 
 export const Header = ({ cart }) => {
   return (
@@ -21,4 +22,11 @@ export const Header = ({ cart }) => {
       </div>
     </>
   );
+};
+
+
+Header.propTypes = {
+  length: PropTypes.number.isRequired,
+  cart: PropTypes.string.isRequired,
+ 
 };
